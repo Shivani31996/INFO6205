@@ -23,8 +23,10 @@ public class Assignment3_PC {
         }
 
         public static void main(String args[]){
-                Scanner scanner = new Scanner(System.in);
-                int n = scanner.nextInt();
-                System.out.println("Number of initial sites " + n + " number of pairs generated " + count(n));
+            System.out.println("Enter number of sites (n): ");
+            Scanner scanner = new Scanner(System.in);
+            int n = scanner.nextInt();
+            System.out.println("Number of sites entered: " + n + " and number of pairs created: " + count(n));
+            }
         }
-    }
+

@@ -80,21 +80,21 @@ public class UF_HWQUPC implements UF {
      */
     public int find(int p) {
         validate(p);
-        int root = p;
+        int rootNode = p;
         // FIXME
         if(!this.pathCompression){
-            while(root != parent[root])
+            while(rootNode != parent[rootNode])
             {
-                root=parent[root];
+                rootNode=parent[rootNode];
             }
         }
         else
         {
-            doPathCompression(root);
-            root = parent[root];
+            doPathCompression(rootNode);
+            rootNode = parent[rootNode];
         }
         // END 
-        return root;
+        return rootNode;
     }
 
     /**
@@ -186,7 +186,7 @@ public class UF_HWQUPC implements UF {
         else if( height[i] == height[j])
         {
             parent[j]=i;
-            height[i]++;
+            height[i]= height[i] + 1;
         }
         else if(height[i] < height[j])
         {
