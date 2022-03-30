@@ -1,9 +1,5 @@
 package edu.neu.coe.info6205.sort.par;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +15,47 @@ public class Main {
     public static void main(String[] args) {
         processArgs(args);
         System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
+
+        //creating an array of length of the array with the lengths being powers of 2
+        int[] arrLengths = {1000000,2000000,4000000,8000000};
+
+        //creating an array of the NoOfThreads
+        int[] noOfThreads = {4, 8, 16, 32,64};
+
+        ForkJoinPool forkPool;
+
         Random random = new Random();
-        int[] array = new int[2000000];
+        int[] array;
+        ArrayList<Long> timeList = new ArrayList<>();
+        for (int i = 0; i < arrLengths.length; i++) {
+            int length = arrLengths[i];
+            array = new int[length];
+            System.out.println("Array size " + length);
+
+            //creating an array of cutoff length
+            int[] cutoff = {length / 1024 + 1, length / 512 + 1, length / 256 + 1, length / 128 + 1, length / 64 + 1, length / 32 + 1, length / 16 + 1, length / 8 + 1, length / 4 + 1, length / 2 + 1, length + 1};
+
+            for (int c = 0; c < cutoff.length; c++) {
+                ParSort.cutoff = cutoff[c];
+                for (int n = 0; n < noOfThreads.length; n++) {
+                    forkPool = new ForkJoinPool(noOfThreads[n]);
+                    long time;
+                    long startTime = System.currentTimeMillis();
+                    for (int t = 0; t < 10; t++) {
+                        for (int j = 0; j < length; j++) array[j] = random.nextInt(10000000);
+                        ParSort.sort(array, 0, array.length, forkPool);
+                    }
+                    long endTime = System.currentTimeMillis();
+                    time = (endTime - startTime);
+
+                    System.out.println("array size: " + length + " cutoff：" + (ParSort.cutoff) + " noofThreads：" + (noOfThreads[n]) + "\t\taverage Time:" + (time / 10) + "ms");
+                    timeList.add(time);
+                }
+            }
+        }
+
+
+        /* int[] array = new int[2000000];
         ArrayList<Long> timeList = new ArrayList<>();
         for (int j = 50; j < 100; j++) {
             ParSort.cutoff = 10000 * (j + 1);
@@ -54,7 +89,7 @@ public class Main {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } */
     }
 
     private static void processArgs(String[] args) {
