@@ -17,7 +17,7 @@ public class Main {
         System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
 
         //creating an array of length of the array with the lengths being powers of 2
-            int[] arrLengths = {8192,16384,32768,65536};
+            int[] arrLengths = {524288,1048576,2097152,4194304};
 
         //creating an array of the NoOfThreads
         int[] threadNum = {2, 4, 8, 16,32};
