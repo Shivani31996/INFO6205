@@ -17,10 +17,10 @@ public class Main {
         System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
 
         //creating an array of length of the array with the lengths being powers of 2
-        int[] arrLengths = {1000000,2000000,4000000,8000000};
+            int[] arrLengths = {8192,16384,32768,65536};
 
         //creating an array of the NoOfThreads
-        int[] noOfThreads = {4, 8, 16, 32,64};
+        int[] threadNum = {2, 4, 8, 16,32};
 
         ForkJoinPool forkPool;
 
@@ -33,23 +33,23 @@ public class Main {
             System.out.println("Array size " + length);
 
             //creating an array of cutoff length
-            int[] cutoff = {length / 1024 + 1, length / 512 + 1, length / 256 + 1, length / 128 + 1, length / 64 + 1, length / 32 + 1, length / 16 + 1, length / 8 + 1, length / 4 + 1, length / 2 + 1, length + 1};
+            int[] cutoffLen = {length / 1024 + 1, length / 512 + 1, length / 256 + 1, length / 128 + 1, length / 64 + 1, length / 32 + 1, length / 16 + 1, length / 8 + 1, length / 4 + 1, length / 2 + 1, length + 1};
 
-            for (int c = 0; c < cutoff.length; c++) {
-                ParSort.cutoff = cutoff[c];
-                for (int n = 0; n < noOfThreads.length; n++) {
-                    forkPool = new ForkJoinPool(noOfThreads[n]);
-                    long time;
-                    long startTime = System.currentTimeMillis();
+            for (int c = 0; c < cutoffLen.length; c++) {
+                ParSort.cutoff = cutoffLen[c];
+                for (int n = 0; n < threadNum.length; n++) {
+                    forkPool = new ForkJoinPool(threadNum[n]);
+                    long duration;
+                    long startTimems = System.currentTimeMillis();
                     for (int t = 0; t < 10; t++) {
                         for (int j = 0; j < length; j++) array[j] = random.nextInt(10000000);
                         ParSort.sort(array, 0, array.length, forkPool);
                     }
-                    long endTime = System.currentTimeMillis();
-                    time = (endTime - startTime);
+                    long endTimems = System.currentTimeMillis();
+                    duration = (endTimems - startTimems);
 
-                    System.out.println("array size: " + length + " cutoff：" + (ParSort.cutoff) + " noofThreads：" + (noOfThreads[n]) + "\t\taverage Time:" + (time / 10) + "ms");
-                    timeList.add(time);
+                    System.out.println("array size: " + length + " cutoff：" + (ParSort.cutoff) + " noofThreads：" + (threadNum[n]) + "\t\taverage Time:" + (duration / 10) + "ms");
+                    timeList.add(duration);
                 }
             }
         }
