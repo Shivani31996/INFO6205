@@ -30,10 +30,12 @@ public class Main {
         for (int i = 0; i < arrLengths.length; i++) {
             int length = arrLengths[i];
             array = new int[length];
-            System.out.println("Array size " + length);
+            System.out.println("Array size is " + length);
 
             //creating an array of cutoff length
-            int[] cutoffLen = {length / 1024 + 1, length / 512 + 1, length / 256 + 1, length / 128 + 1, length / 64 + 1, length / 32 + 1, length / 16 + 1, length / 8 + 1, length / 4 + 1, length / 2 + 1, length + 1};
+            int[] cutoffLen = {length / 1024 + 1, length / 512 + 1, length / 256 + 1, length / 128 + 1,
+                    length / 64 + 1, length / 32 + 1, length / 16 + 1, length / 8 + 1, length / 4 + 1,
+                    length / 2 + 1, length + 1};
 
             for (int c = 0; c < cutoffLen.length; c++) {
                 ParSort.cutoff = cutoffLen[c];
@@ -48,7 +50,8 @@ public class Main {
                     long endTimems = System.currentTimeMillis();
                     duration = (endTimems - startTimems);
 
-                    System.out.println("array size: " + length + " cutoff：" + (ParSort.cutoff) + " noofThreads：" + (threadNum[n]) + "\t\taverage Time:" + (duration / 10) + "ms");
+                    System.out.println("array size is: " + length + " cut-off is：" + (ParSort.cutoff) +
+                            " number of threads：" + (threadNum[n]) + "\t\taverage time taken:" + (duration / 10) + "ms");
                     timeList.add(duration);
                 }
             }
